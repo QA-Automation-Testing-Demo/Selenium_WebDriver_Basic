@@ -20,9 +20,38 @@ namespace TestProject1
         [OneTimeSetUp]
         public void SetUp()
         {
-            driver = new ChromeDriver();
+            ChromeOptions options = new ChromeOptions();
+
+            // Ensure Chrome runs in headless mode
+            options.AddArguments("headless");
+
+            // Bypass OS security model
+            options.AddArguments("no-sandbox");
+
+            // Overcome limited resource problems
+            options.AddArguments("disable-dev-shm-usage");
+
+            // Applicable to Windows OS only
+            options.AddArguments("disable-gpu");
+
+            // Set window size to ensure elements are visible
+            options.AddArguments("window-size=1920x1080");
+
+            // Disable extensions
+            options.AddArguments("disable-extensions");
+
+            // Remote debugging port
+            options.AddArguments("remote-debugging-port=9222");
+
+            driver = new ChromeDriver(options);
+
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            driver.Url = "file:///C:/Users/mddim/OneDrive/Desktop/number-calculator/number-calculator.html";
+
+            string projectDir = Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.FullName;
+
+            string calcPath = Path.Combine(projectDir, "Calculator", "number-calculator.html");
+            string calcUrl = new Uri(calcPath).AbsoluteUri;
+            driver.Url = calcUrl;
 
             textBoxFirstNum = driver.FindElement(By.Id("number1"));
             dropDownOperation = driver.FindElement(By.Id("operation"));
