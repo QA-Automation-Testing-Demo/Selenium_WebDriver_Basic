@@ -15,7 +15,7 @@ pipeline {
             steps {
                 // TODO: replace ??? with your GitHub account / org
                 git branch: 'main',
-                    url: 'https://github.com/???/SeleniumBasicExercise.git'
+                    url: 'https://github.com/QA-Automation-Testing-Demo/Selenium_WebDriver_Basic.git'
             }
         }
 
